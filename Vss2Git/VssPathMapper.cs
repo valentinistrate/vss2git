@@ -626,7 +626,7 @@ namespace Hpdi.Vss2Git
             return null;
         }
 
-        public static string GetWorkingPath(string workingRoot, string vssPath)
+        public static string GetWorkingPath(string workingRoot, string vssPath, string rootProjectName, int nRootProjectsCount)
         {
             if (vssPath == "$")
             {
@@ -639,6 +639,9 @@ namespace Hpdi.Vss2Git
             }
 
             var relPath = vssPath.Replace(VssDatabase.ProjectSeparatorChar, Path.DirectorySeparatorChar);
+            if ((vssPath.StartsWith(rootProjectName)) && (nRootProjectsCount == 1))
+                relPath = relPath.Substring(rootProjectName.Length);
+
             return Path.Combine(workingRoot, relPath);
         }
     }
